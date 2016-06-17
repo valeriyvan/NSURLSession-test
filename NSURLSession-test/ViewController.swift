@@ -28,8 +28,8 @@ class ViewController: UIViewController {
         
         let task = uploadSession.uploadTaskWithRequest(request, fromFile: NSURL(fileURLWithPath: bodyPathname))
         
-        print("\(#function)\(task.taskIdentifier)")
-        
+        print("\(#function) task id=\(task.taskIdentifier)")
+
         //task.resume()
     }
 
@@ -96,11 +96,11 @@ class ViewController: UIViewController {
 extension ViewController: NSURLSessionDataDelegate, NSURLSessionTaskDelegate, NSURLSessionDelegate {
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-        print("\(#function): sent \(totalBytesSent) of \(totalBytesExpectedToSend)")
+        print("\(#function): task id=\(task.taskIdentifier) sent \(totalBytesSent) of \(totalBytesExpectedToSend)")
     }
     
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        print("\(#function): got \(data.length) bytes of responce")
+        print("\(#function): task id=\(dataTask) got \(data.length) bytes of responce")
         if let responseString = String(data: data, encoding: NSUTF8StringEncoding) {
             print("response string: \(responseString)")
         }
@@ -112,7 +112,7 @@ extension ViewController: NSURLSessionDataDelegate, NSURLSessionTaskDelegate, NS
         if let error = error {
             errorDescription = error.description
         }
-        print("\(#function): complete with error \(errorDescription)")
+        print("\(#function): task id=\(task.taskIdentifier) complete with error \(errorDescription)")
     }
     
     // NSURLSessionDelegate
